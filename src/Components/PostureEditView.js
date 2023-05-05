@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button, Space, Divider, Input, UserOutlined, Card, Select, Dropdown } from 'antd';
+import { Button, Space, Divider, Input, UserOutlined, Card, Select, Dropdown, Tree } from 'antd';
 import { DownloadOutlined, PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import RadioGroup, { useRadioGroup } from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
@@ -22,6 +22,48 @@ const options = [
         value: "Finance"
     },
 ];
+const treeData = [
+    {
+      title: 'Node 1',
+      key: '0-0',
+      children: [
+        { title: 'Child Node 1', key: '0-0-0' },
+        { title: 'Child Node 2', key: '0-0-1' },
+      ],
+    },
+    {
+      title: 'Node 2',
+      key: '0-1',
+      children: [
+        { title: 'Child Node 3', key: '0-1-0' },
+        { title: 'Child Node 4', key: '0-1-1' },
+      ],
+    },
+  ];
+  
+  const treeStyle = {
+    position: 'absolute',
+    top: 0,
+    left: '50%',
+    width: '1px',
+    height: '100%',
+    backgroundColor: '#ccc',
+    transform: 'translate(-50%, 0)',
+    zIndex: -1,
+  };
+  
+  const containerStyle = {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
+    padding: '16px',
+  };
+  
+  const cardStyle = {
+    flex: 1,
+    margin: '0 16px',
+  };
 const PostureEditView = () => {
 
     const [osAdded, setOsEdit] = useState(false)
@@ -141,21 +183,21 @@ const PostureEditView = () => {
                 {
                     osBody.map((val, ind) => {
                         return (
-                            <OsProfileView name={val}/>
+                            <OsProfileView name={val} />
                         )
                     })
                 }
                 <div className="row">
-                    <div className="col-sm-6">
+                    <div className="col-sm-8">
                         {osBody.length === 0 &&
-                            <>
+                            <div className='noOpSelected'>
                                 <h2>No Operating System Selected Yet</h2>
                                 <p>Click on add OS</p>
-                            </>
+                            </div>
                         }
                     </div>
-                    <div className="col-sm-6">
-                        <div className="d-flex justify-content-end " style={{ marginTop: "60px" }}>
+                    <div className="col-sm-4">
+                        <div className="d-flex justify-content-end " style={{ marginTop: "35px" }}>
                             {/* <Button type="primary" ghost onChange={addOs}>Add OS to Profile</Button> */}
                             <Dropdown onChange={addOs} menu={{ items }} placement="bottom" ON
                             // arrow={{ pointAtCenter: false }}
@@ -168,7 +210,21 @@ const PostureEditView = () => {
 
                 </div>
                 <hr />
+                <div className="row">
+                    <div className="col-sm-10">
 
+                    </div>
+                    <div className="col-sm-2">
+                        <div className="d-flex justify-content-end " style={{ marginTop: "35px" }}>
+                            {/* <Button type="primary" ghost onChange={addOs}>Add OS to Profile</Button> */}
+                            <Button type="text">Cancel</Button>
+                            <div style={{marginLeft:"10px"}}></div>
+                            <Button type="primary" >Apply</Button>
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
         </>
 

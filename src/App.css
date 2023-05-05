@@ -32,19 +32,32 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
-.header1{
+
+.header1 {
   color: #203598;
   font-size: 14px;
   font-weight: 600;
 }
-.addprofileButton{
+
+.addprofileButton {
   margin-top: 43px;
 }
-.runtimeSchedule{
+
+.runtimeSchedule {
   margin-top: 42px;
 }
 
+.addRule {
+  color: #4949e3;
+  font-weight: 500;
+  text-decoration: none;
+}
+.noOpSelected{
+  margin-left: 229px;
+  margin-top: 25px;
+}
