@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button, Space, Divider, Input, UserOutlined, Card, Select, Dropdown, Tree } from 'antd';
-import { DownloadOutlined, PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
+import { DownloadOutlined, PlusCircleOutlined, DeleteOutlined, FileAddOutlined } from '@ant-design/icons';
 import RadioGroup, { useRadioGroup } from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -24,24 +24,24 @@ const options = [
 ];
 const treeData = [
     {
-      title: 'Node 1',
-      key: '0-0',
-      children: [
-        { title: 'Child Node 1', key: '0-0-0' },
-        { title: 'Child Node 2', key: '0-0-1' },
-      ],
+        title: 'Node 1',
+        key: '0-0',
+        children: [
+            { title: 'Child Node 1', key: '0-0-0' },
+            { title: 'Child Node 2', key: '0-0-1' },
+        ],
     },
     {
-      title: 'Node 2',
-      key: '0-1',
-      children: [
-        { title: 'Child Node 3', key: '0-1-0' },
-        { title: 'Child Node 4', key: '0-1-1' },
-      ],
+        title: 'Node 2',
+        key: '0-1',
+        children: [
+            { title: 'Child Node 3', key: '0-1-0' },
+            { title: 'Child Node 4', key: '0-1-1' },
+        ],
     },
-  ];
-  
-  const treeStyle = {
+];
+
+const treeStyle = {
     position: 'absolute',
     top: 0,
     left: '50%',
@@ -50,20 +50,20 @@ const treeData = [
     backgroundColor: '#ccc',
     transform: 'translate(-50%, 0)',
     zIndex: -1,
-  };
-  
-  const containerStyle = {
+};
+
+const containerStyle = {
     position: 'relative',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'stretch',
     padding: '16px',
-  };
-  
-  const cardStyle = {
+};
+
+const cardStyle = {
     flex: 1,
     margin: '0 16px',
-  };
+};
 const PostureEditView = () => {
 
     const [osAdded, setOsEdit] = useState(false)
@@ -197,7 +197,7 @@ const PostureEditView = () => {
                         }
                     </div>
                     <div className="col-sm-4">
-                        <div className="d-flex justify-content-end " style={{ marginTop: "35px" }}>
+                        <div className="d-flex justify-content-end " style={{ marginTop: "35px",marginRight: "120px" }}>
                             {/* <Button type="primary" ghost onChange={addOs}>Add OS to Profile</Button> */}
                             <Dropdown onChange={addOs} menu={{ items }} placement="bottom" ON
                             // arrow={{ pointAtCenter: false }}
@@ -209,7 +209,7 @@ const PostureEditView = () => {
                     </div>
 
                 </div>
-                <hr />
+                <hr style={{    width: "84%",marginLeft: "100px"}}/>
                 <div className="row">
                     <div className="col-sm-10">
 
@@ -218,7 +218,7 @@ const PostureEditView = () => {
                         <div className="d-flex justify-content-end " style={{ marginTop: "35px" }}>
                             {/* <Button type="primary" ghost onChange={addOs}>Add OS to Profile</Button> */}
                             <Button type="text">Cancel</Button>
-                            <div style={{marginLeft:"10px"}}></div>
+                            <div style={{ marginLeft: "10px" }}></div>
                             <Button type="primary" >Apply</Button>
                         </div>
 

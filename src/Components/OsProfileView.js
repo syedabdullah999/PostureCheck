@@ -1,19 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { DownloadOutlined, PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
+import { DownloadOutlined, PlusCircleOutlined, DeleteOutlined, QuestionCircleFilled } from '@ant-design/icons';
 import './../App.css';
 
 import { Button, Space, Divider, Input, UserOutlined, Card, Select, Dropdown } from 'antd';
+import OSVRule from './SubComponents/OSVRule';
+import CertificateRule from './SubComponents/CertificateRule';
+import AntiVirusRule from './SubComponents/AntiVirusRule';
+import ProcessRunningRule from './SubComponents/ProceessRunningRule';
 const { Option } = Select;
 const OsProfileView = (props) => {
     const [rules, setRules] = useState([])
     const [newrule, setNewRule] = useState([""])
     const [versionNumber, setVersionNumber] = useState('');
+    const [certificateName, setCertificateName] = useState(["", "", ""]);
+    const [processName, setProcessName] = useState(["", "", ""]);
     const [options, setOptions] = useState([
         { value: 'operatingSystemVersion', label: 'Operating System Version', visble: true },
         { value: 'certificate', label: 'Certificate', visble: true },
         { value: 'diskEncryption', label: 'Disk Encryption', visble: true },
         { value: 'antiVirus', label: 'Anti-virus', visble: true },
         { value: 'fileExists', label: 'File Exists', visble: true },
+        { value: 'processRunning', label: 'Process Running', visble: true },
     ]);
     useEffect(() => {
         // setRules([...rules, "Operating System Version"])
@@ -38,14 +45,51 @@ const OsProfileView = (props) => {
     const addNewRule = () => {
         setNewRule([...newrule, ""])
     }
+    const handleInputCertificateName = (val, ind) => {
+        // setVersionNumber(event.target.value);
+        let certificate = certificateName
+        certificate[ind] = val.target.value
+        setCertificateName([...certificate])
+    };
+
+    const handleClearCertificateName = (val, ind) => {
+        let certificate = certificateName
+        certificate[ind] = ""
+        setCertificateName([...certificate])
+    };
+    const handleInputProcessRunning = (val, ind) => {
+        // setVersionNumber(event.target.value);
+        let process = processName
+        process[ind] = val.target.value
+        setProcessName([...process])
+    };
+
+    const handleClearProcessRunning = (val, ind) => {
+        let process = processName
+        process[ind] = ""
+        setProcessName([...process])
+    };
+
     const handleInputVersionNumber = (event) => {
         setVersionNumber(event.target.value);
-      };
-    
-      const handleClearVersionNumber = () => {
-        setVersionNumber('');
-      };
+    };
 
+    const handleClearVersionNumber = () => {
+        setVersionNumber('');
+    };
+    const addNewCertificate = () => {
+        let certificate = certificateName
+        certificate[1] = "OR"
+        setCertificateName([...certificate])
+    }
+    const addNewProcess = (ind) => {
+        let process = processName
+        process[ind] = "AND"
+        setCertificateName([...process])
+    }
+    const handleChange = (value) => {
+        console.log(`selected ${value}`);
+    };
     return (
         <div >
             <Card style={{ width: "80%", borderLeftColor: "rgb(146 194 255)", borderLeftWidth: "4px", marginBottom: "33px", marginLeft: "117px" }}>
@@ -62,13 +106,14 @@ const OsProfileView = (props) => {
                 {newrule.map((val, index) => {
                     return (
                         <div className="row">
-                            <div className="col-sm-4">
+                            <div className="col-sm-4 d-flex">
                                 <Select
                                     onChange={(event) => handleSelect(event, index)}
                                     style={{ width: "100%" }}
                                     placeholder="Select rule type"
                                 // options={[{ value: "OperatingSystemVersion", label: "Operating System Version" }, { value: "AntiVirus", label: "Anti Virus" }]}
                                 >
+
                                     {options.map((option) => (
                                         option.visble === true &&
                                         <Option key={option.value} value={option.value}>
@@ -76,39 +121,39 @@ const OsProfileView = (props) => {
                                         </Option>
                                     ))}
                                 </Select>
+                                <div style={{ marginLeft: "8px" }}>
+                                    <QuestionCircleFilled />
+                                </div>
                             </div>
                             <div className="col-sm-8 d-flex">
-                                <div className={val === "" ? "" : 'col-sm-10 d-flex'}>
+                                <div className={(val === "" || val === "diskEncryption") ? "" : 'col-sm-10 d-flex'}>
                                     {val === "operatingSystemVersion" &&
-                                        <div className='d-flex' style={{width:"100%"}}>
-                                            <Select
-                                                style={{ width: 150 }}
-                                                options={[{ value: ">=", label: ">=" }, { value: ">", label: ">" }, { value: "=", label: "=" }]}
-                                            />
-                                            <Input
-                                                value={versionNumber}
-                                                onChange={handleInputVersionNumber}
-                                                allowClear
-                                                onClear={handleClearVersionNumber}
-                                                placeholder="Enter Version Number (x.xx.xxxxx)"
-                                                style={{marginLeft:"10px", width: "100%"}}
-                                            />
-                                        </div>
+                                        <OSVRule versionNumber={versionNumber} handleInputVersionNumber={handleInputVersionNumber} handleClearVersionNumber={handleClearVersionNumber} />
                                     }
                                     {val === "fileExists" &&
-                                        <div></div>
+                                        <div>
+                                            <CertificateRule addNewCertificate={addNewCertificate} certificateName={certificateName} handleClearCertificateName={handleClearCertificateName} handleInputCertificateName={handleInputCertificateName} />
+                                        </div>
                                     }
                                     {val === "diskEncryption" &&
-                                        <div></div>
+                                    <></>
                                     }
                                     {val === "antiVirus" &&
-                                        <div></div>}
+                                        <AntiVirusRule handleChange={handleChange} />
+                                    }
 
                                     {val === "certificate" &&
-                                        <div></div>
+                                        <div>
+                                            <CertificateRule addNewCertificate={addNewCertificate} certificateName={certificateName} handleClearCertificateName={handleClearCertificateName} handleInputCertificateName={handleInputCertificateName} />
+                                        </div>
+                                    }
+                                    {val === "processRunning" &&
+                                    <div>
+                                        <ProcessRunningRule processName={processName} handleClearProcessRunning={handleClearProcessRunning} handleInputProcessRunning={handleInputProcessRunning} addNewProcess={addNewProcess}/>
+                                    </div>
                                     }
                                 </div>
-                                <div className={val === "" ? "" : 'col-sm-2 d-flex justify-content-end'}>
+                                <div className={(val === "" || val === "diskEncryption") ? "" : 'col-sm-2 d-flex justify-content-end'}>
                                     <DeleteOutlined />
                                 </div>
                             </div>

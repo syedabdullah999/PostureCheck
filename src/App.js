@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { DownloadOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { Button, Space, Divider, Input, UserOutlined, Card, Select } from 'antd';
+import { DownloadOutlined, PlusCircleOutlined, PlusSquareOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Button, Space, Divider, Input, UserOutlined, Card, Select, Icon } from 'antd';
 import RadioGroup, { useRadioGroup } from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { styled } from '@mui/material/styles';
@@ -44,7 +44,7 @@ function App() {
       no: '1',
       name: 'Jim Green',
       assignedOperatingSystem: 42,
-      assignedGroups: () => <PlusCircleOutlined />,
+      assignedGroups: "tagRender",
       runtimeSchedule: 'Prior To Connection',
       actions: ""
     },
@@ -94,8 +94,18 @@ function App() {
     {
       title: '',
       dataIndex: 'actions',
+      render: () => renderIcons(),
     },
   ];
+  const renderIcons = () => {
+    return(
+      <>
+      <DeleteOutlined style={{color: "#3b5da8", marginLeft: "7px"}}/>
+      <PlusSquareOutlined style={{color: "#3b5da8", marginLeft: "7px"}}/>
+      <EditOutlined style={{color: "#3b5da8", marginLeft: "7px"}} onClick={onOpen}/>
+      </>
+    )
+  }
   const onDragEnd = ({ active, over }) => {
     if (active.id !== over?.id) {
       setDataSource((previous) => {
@@ -194,7 +204,7 @@ function App() {
 
               </div>
               <div className="col-sm-4 d-flex justify-content-end ">
-                <Button type="primary" icon={<PlusCircleOutlined />} className="addprofileButton">
+                <Button type="primary" icon={<PlusCircleOutlined />} className="addprofileButton" onClick={onOpen}>
                   Add Profile
                 </Button>
               </div>
@@ -220,7 +230,7 @@ function App() {
                 <Table
                   onRow={(record, rowIndex) => {
                     return {
-                      onClick: (event) => { onOpen(event) }, // click row
+                      onClick: (event) => {  }, // click row
                     };
                   }}
                   components={{

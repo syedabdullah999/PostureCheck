@@ -61,3 +61,6 @@
   margin-left: 229px;
   margin-top: 25px;
 }
+.ant-pagination{
+  display: none !important;
+}
