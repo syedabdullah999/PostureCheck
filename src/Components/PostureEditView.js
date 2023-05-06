@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button, Space, Divider, Input, UserOutlined, Card, Select, Dropdown, Tree } from 'antd';
+import { Button, Space, Divider, Input, UserOutlined, Card, Select, Dropdown, Tree, Menu } from 'antd';
 import { DownloadOutlined, PlusCircleOutlined, DeleteOutlined, FileAddOutlined } from '@ant-design/icons';
 import RadioGroup, { useRadioGroup } from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
@@ -71,22 +71,28 @@ const PostureEditView = () => {
     const [items, setItems] = useState([
         {
             key: 1,
+            value: "macOS",
+            visible: true,
             label: (
-                <p onClick={() => addOs("MacOs")}>
+                <p onClick={() => addOs("macOS")}>
                     MacOs
                 </p>)
         },
         {
             key: 2,
+            value: "windows",
+            visible: true,
             label: (
-                <p onClick={() => addOs("Windows")}>
+                <p onClick={() => addOs("windows")}>
                     Windows
                 </p>)
         },
         {
             key: 3,
+            value: "linux",
+            visible: true,
             label: (
-                <p onClick={() => addOs("Linux")}>
+                <p onClick={() => addOs("linux")}>
                     Linux
                 </p>)
         },
@@ -122,10 +128,15 @@ const PostureEditView = () => {
     }));
 
     const addOs = (e) => {
-        debugger
         // setOSBody([...osBody, osBody[osBody.length] + 1])
         let abc = osBody
+        let itemData = items
         abc.push(e)
+        items.map((option, index) => {
+            if (e === (option.value))
+                itemData[index].visible = false;
+        });
+        setItems([...itemData])
         setOSBody([...abc])
         // let item = items
         // item = item.filter((val, ind) => {
@@ -134,7 +145,23 @@ const PostureEditView = () => {
         // })
         // setItems([...item])
     }
-
+    const MenuComponent = (
+        <Menu>
+            {items.map((item) => {
+                if (item.visible)
+                    return <Menu.Item key={item.key}>{item.label}</Menu.Item>;
+                return null; // hide the item if its value is not 'macOS'
+            })}
+        </Menu>
+    );
+    const removeOs = (val) => {
+        let itemsData = items
+        items.map((option, index) => {
+            if (val === option.value)
+                itemsData[index].visible = true;
+        });
+        setItems([...itemsData])
+    }
     return (
 
         <>
@@ -178,18 +205,19 @@ const PostureEditView = () => {
                         </div>
                     </div>
                 </Card>
-                {osBody.length !== 0 &&
+                {items.find(item => item.visible === false) !== undefined &&
                     <h3 style={{ width: "80%", marginLeft: "117px", marginTop: "33px" }}>Operating System for this Profile</h3>}
                 {
-                    osBody.map((val, ind) => {
+                    items.map((val, ind) => {
                         return (
-                            <OsProfileView name={val} />
+                            !val.visible &&
+                            <OsProfileView name={val.value} removeOs={removeOs} />
                         )
                     })
                 }
                 <div className="row">
                     <div className="col-sm-8">
-                        {osBody.length === 0 &&
+                        {items.find(item => item.visible === false) === undefined  &&
                             <div className='noOpSelected'>
                                 <h2>No Operating System Selected Yet</h2>
                                 <p>Click on add OS</p>
@@ -197,19 +225,24 @@ const PostureEditView = () => {
                         }
                     </div>
                     <div className="col-sm-4">
-                        <div className="d-flex justify-content-end " style={{ marginTop: "35px",marginRight: "120px" }}>
-                            {/* <Button type="primary" ghost onChange={addOs}>Add OS to Profile</Button> */}
-                            <Dropdown onChange={addOs} menu={{ items }} placement="bottom" ON
-                            // arrow={{ pointAtCenter: false }}
-                            >
-                                <Button type="primary" ghost >Add OS to Profile</Button>
-                            </Dropdown>
-                        </div>
+                        {items.length > 0 &&
+                            <div className="d-flex justify-content-end " style={{ marginTop: "35px", marginRight: "120px" }}>
+                                {/* <Button type="primary" ghost onChange={addOs}>Add OS to Profile</Button> */}
+                                <Dropdown onChange={(val) => addOs(val)}
+                                    overlay={MenuComponent}
+                                    trigger={["hover"]}
+                                    placement="bottom"
+                                    arrow={{ pointAtCenter: false }}
+                                >
+                                    <Button type="primary" ghost >Add OS to Profile</Button>
+                                </Dropdown>
+                            </div>
+                        }
 
                     </div>
 
                 </div>
-                <hr style={{    width: "84%",marginLeft: "100px"}}/>
+                <hr style={{ width: "84%", marginLeft: "100px" }} />
                 <div className="row">
                     <div className="col-sm-10">
 

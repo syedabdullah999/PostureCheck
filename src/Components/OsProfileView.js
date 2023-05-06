@@ -30,13 +30,12 @@ const OsProfileView = (props) => {
         // setOptions(newOptions);
         // const index = options.findIndex((option) => option.value === value);
         setRules([...rules, value])
-        const newOptions = options.map((option) => ({
-            ...option,
-            // visble: option.value === value ? false : true,
-            visble: option.value === value ? false : option.visble,
-        }));
         let ruleSet = newrule
         ruleSet[index] = value
+        const newOptions = options.map((option) => ({
+            ...option,
+            visble: ruleSet.includes(option.value) ? false : true
+        }));
         setNewRule([...ruleSet])
         setOptions(newOptions);
         // const newOptions = options.map((item,ind) => item.value === value);
@@ -98,7 +97,7 @@ const OsProfileView = (props) => {
                         <p>{props.name}</p>
                     </div>
                     <div className="col-sm-6 d-flex justify-content-end">
-                        <DeleteOutlined />
+                        <DeleteOutlined onClick={() => props.removeOs(props.name)} />
                     </div>
                     <hr />
                 </div>
@@ -136,7 +135,7 @@ const OsProfileView = (props) => {
                                         </div>
                                     }
                                     {val === "diskEncryption" &&
-                                    <></>
+                                        <></>
                                     }
                                     {val === "antiVirus" &&
                                         <AntiVirusRule handleChange={handleChange} />
@@ -148,9 +147,9 @@ const OsProfileView = (props) => {
                                         </div>
                                     }
                                     {val === "processRunning" &&
-                                    <div>
-                                        <ProcessRunningRule processName={processName} handleClearProcessRunning={handleClearProcessRunning} handleInputProcessRunning={handleInputProcessRunning} addNewProcess={addNewProcess}/>
-                                    </div>
+                                        <div>
+                                            <ProcessRunningRule processName={processName} handleClearProcessRunning={handleClearProcessRunning} handleInputProcessRunning={handleInputProcessRunning} addNewProcess={addNewProcess} />
+                                        </div>
                                     }
                                 </div>
                                 <div className={(val === "" || val === "diskEncryption") ? "" : 'col-sm-2 d-flex justify-content-end'}>
