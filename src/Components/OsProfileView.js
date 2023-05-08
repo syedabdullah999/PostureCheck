@@ -90,82 +90,84 @@ const OsProfileView = (props) => {
         console.log(`selected ${value}`);
     };
     return (
-        <div >
-            <Card style={{ width: "80%", borderLeftColor: "rgb(146 194 255)", borderLeftWidth: "4px", marginBottom: "33px", marginLeft: "117px" }}>
-                <div className="row">
-                    <div className="col-sm-6">
-                        <p>{props.name}</p>
-                    </div>
-                    <div className="col-sm-6 d-flex justify-content-end">
-                        <DeleteOutlined onClick={() => props.removeOs(props.name)} />
-                    </div>
-                    <hr />
+        <Card style={{ width: "94%", borderLeftColor: "rgb(146 194 255)", borderLeftWidth: "4px", marginBottom: "-81px", marginLeft: "-52px", marginTop: `${props.iteration !== 0 ? "104px" : "78px"}` }}>
+            <div className="row">
+                <div className="col-sm-6">
+                    <p>{props.name}</p>
                 </div>
-                <p className='header1'>Select and Define Rules*</p>
-                {newrule.map((val, index) => {
-                    return (
-                        <div className="row">
-                            <div className="col-sm-4 d-flex">
-                                <Select
-                                    onChange={(event) => handleSelect(event, index)}
-                                    style={{ width: "100%" }}
-                                    placeholder="Select rule type"
-                                // options={[{ value: "OperatingSystemVersion", label: "Operating System Version" }, { value: "AntiVirus", label: "Anti Virus" }]}
-                                >
+                <div className="col-sm-6 d-flex justify-content-end">
+                    <DeleteOutlined onClick={() => props.removeOs(props.name)} />
+                </div>
+                <hr />
+            </div>
 
-                                    {options.map((option) => (
-                                        option.visble === true &&
-                                        <Option key={option.value} value={option.value}>
-                                            {option.label}
-                                        </Option>
-                                    ))}
-                                </Select>
-                                <div style={{ marginLeft: "8px" }}>
-                                    <QuestionCircleFilled />
-                                </div>
-                            </div>
-                            <div className="col-sm-8 d-flex">
-                                <div className={(val === "" || val === "diskEncryption") ? "" : 'col-sm-10 d-flex'}>
-                                    {val === "operatingSystemVersion" &&
-                                        <OSVRule versionNumber={versionNumber} handleInputVersionNumber={handleInputVersionNumber} handleClearVersionNumber={handleClearVersionNumber} />
-                                    }
-                                    {val === "fileExists" &&
-                                        <div>
-                                            <CertificateRule addNewCertificate={addNewCertificate} certificateName={certificateName} handleClearCertificateName={handleClearCertificateName} handleInputCertificateName={handleInputCertificateName} />
-                                        </div>
-                                    }
-                                    {val === "diskEncryption" &&
-                                        <></>
-                                    }
-                                    {val === "antiVirus" &&
-                                        <AntiVirusRule handleChange={handleChange} />
-                                    }
+            <p className='header1'>Select and Define Rules*</p>
 
-                                    {val === "certificate" &&
-                                        <div>
-                                            <CertificateRule addNewCertificate={addNewCertificate} certificateName={certificateName} handleClearCertificateName={handleClearCertificateName} handleInputCertificateName={handleInputCertificateName} />
-                                        </div>
-                                    }
-                                    {val === "processRunning" &&
-                                        <div>
-                                            <ProcessRunningRule processName={processName} handleClearProcessRunning={handleClearProcessRunning} handleInputProcessRunning={handleInputProcessRunning} addNewProcess={addNewProcess} />
-                                        </div>
-                                    }
-                                </div>
-                                <div className={(val === "" || val === "diskEncryption") ? "" : 'col-sm-2 d-flex justify-content-end'}>
-                                    <DeleteOutlined />
-                                </div>
+            {newrule.map((val, index) => {
+                return (
+                    <div className="row">
+                        <div className="col-sm-4 d-flex">
+                            <Select
+                                onChange={(event) => handleSelect(event, index)}
+                                style={{ width: "100%", height: "33px"}}
+                                placeholder="Select rule type"
+                            // options={[{ value: "OperatingSystemVersion", label: "Operating System Version" }, { value: "AntiVirus", label: "Anti Virus" }]}
+                            >
+
+                                {options.map((option) => (
+                                    option.visble === true &&
+                                    <Option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </Option>
+                                ))}
+                            </Select>
+                            <div style={{ marginLeft: "8px" }}>
+                                <QuestionCircleFilled />
                             </div>
-                            <div style={{ marginTop: "20px" }}></div>
-                            <hr />
                         </div>
-                    )
-                })}
-                <div style={{ marginTop: "20px" }}></div>
-                <a className='addRule' onClick={addNewRule}>+ Add Rule to OS</a>
+                        <div className="col-sm-8 d-flex">
+                            <div className={(val === "" || val === "diskEncryption") ? "" : 'col-sm-10 d-flex'}>
+                                {val === "operatingSystemVersion" &&
+                                    <OSVRule versionNumber={versionNumber} handleInputVersionNumber={handleInputVersionNumber} handleClearVersionNumber={handleClearVersionNumber} />
+                                }
+                                {val === "fileExists" &&
+                                    <div>
+                                        <CertificateRule addNewCertificate={addNewCertificate} certificateName={certificateName} handleClearCertificateName={handleClearCertificateName} handleInputCertificateName={handleInputCertificateName} />
+                                    </div>
+                                }
+                                {val === "diskEncryption" &&
+                                    <></>
+                                }
+                                {val === "antiVirus" &&
+                                    <AntiVirusRule handleChange={handleChange} />
+                                }
 
-            </Card>
-        </div>
+                                {val === "certificate" &&
+                                    <div>
+                                        <CertificateRule addNewCertificate={addNewCertificate} certificateName={certificateName} handleClearCertificateName={handleClearCertificateName} handleInputCertificateName={handleInputCertificateName} />
+                                    </div>
+                                }
+                                {val === "processRunning" &&
+                                    <div>
+                                        <ProcessRunningRule processName={processName} handleClearProcessRunning={handleClearProcessRunning} handleInputProcessRunning={handleInputProcessRunning} addNewProcess={addNewProcess} />
+                                    </div>
+                                }
+                            </div>
+                            <div className={(val === "" || val === "diskEncryption") ? "" : 'col-sm-2 d-flex justify-content-end'}>
+                                <DeleteOutlined />
+                            </div>
+                        </div>
+                        <div style={{ marginTop: "20px" }}></div>
+                        <hr />
+                    </div>
+                )
+            })}
+            
+            {<p class="vertical OrTag">OR</p>}
+            <div style={{ marginTop: "20px" }}></div>
+            <a className='addRule' onClick={addNewRule}>+ Add Rule to OS</a>
+
+        </Card >
     )
 }
 

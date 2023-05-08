@@ -38,6 +38,7 @@ function App() {
   ];
 
   const [editOpen, setEditOpen] = useState(false)
+  const [actionHide, setActionHide] = useState(true)
   const [dataSource, setDataSource] = useState([
     {
       key: '1',
@@ -98,12 +99,16 @@ function App() {
     },
   ];
   const renderIcons = () => {
+    if (!actionHide)
+      return (
+        <>
+          <DeleteOutlined style={{ color: "#3b5da8", marginLeft: "7px" }} />
+          <PlusSquareOutlined style={{ color: "#3b5da8", marginLeft: "7px" }} />
+          <EditOutlined style={{ color: "#3b5da8", marginLeft: "7px" }} onClick={onOpen} />
+        </>
+      )
     return(
-      <>
-      <DeleteOutlined style={{color: "#3b5da8", marginLeft: "7px"}}/>
-      <PlusSquareOutlined style={{color: "#3b5da8", marginLeft: "7px"}}/>
-      <EditOutlined style={{color: "#3b5da8", marginLeft: "7px"}} onClick={onOpen}/>
-      </>
+      <div style={{width:"63px"}}></div>
     )
   }
   const onDragEnd = ({ active, over }) => {
@@ -230,7 +235,9 @@ function App() {
                 <Table
                   onRow={(record, rowIndex) => {
                     return {
-                      onClick: (event) => {  }, // click row
+                      onClick: (event) => { }, // click row
+                      onMouseEnter: (event) => { setActionHide(false) }, // mouse enter row
+                      onMouseLeave: (event) => { setActionHide(true) }, // mouse leave row
                     };
                   }}
                   components={{
