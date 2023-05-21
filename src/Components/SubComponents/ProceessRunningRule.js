@@ -34,7 +34,7 @@ const processRunningRule = (props) => {
             }
             {props.processName[3] === "AND" &&
                 <Input
-                    value={props.processName[2]}
+                    value={props.processName[4]}
                     onChange={(val) => props.handleInputProcessRunning(val, 4)}
                     allowClear
                     onClear={(val) => props.handleClearProcessRunning(val, 4)}
@@ -50,10 +50,10 @@ const processRunningRule = (props) => {
             }
             {props.processName[5] === "AND" &&
                 <Input
-                    value={props.processName[2]}
-                    onChange={(val) => props.handleInputProcessRunning(val, 4)}
+                    value={props.processName[6]}
+                    onChange={(val) => props.handleInputProcessRunning(val, 6)}
                     allowClear
-                    onClear={(val) => props.handleClearProcessRunning(val, 4)}
+                    onClear={(val) => props.handleClearProcessRunning(val, 6)}
                     placeholder="Enter Version Number (x.xx.xxxxx)"
                     style={{ marginLeft: "10px", width: "100%" }}
                 />
@@ -66,10 +66,10 @@ const processRunningRule = (props) => {
             }
             {props.processName[7] === "AND" &&
                 <Input
-                    value={props.processName[2]}
-                    onChange={(val) => props.handleInputProcessRunning(val, 2)}
+                    value={props.processName[8]}
+                    onChange={(val) => props.handleInputProcessRunning(val, 8)}
                     allowClear
-                    onClear={(val) => props.handleClearProcessRunning(val, 2)}
+                    onClear={(val) => props.handleClearProcessRunning(val, 8)}
                     placeholder="Enter Version Number (x.xx.xxxxx)"
                     style={{ marginLeft: "10px", width: "100%" }}
                 />

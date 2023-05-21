@@ -5,28 +5,28 @@ const CertificateRule = (props) => {
     return (
         <div>
             <Input
-                value={props.certificateName[0]}
-                onChange={(val) => props.handleInputCertificateName(val, 0)}
+                value={props.body?.rule_value}
+                onChange={(val) => props.handleInputCertificateName(val,props.index, props.iteration)}
                 allowClear
-                onClear={(val) => props.handleInputCertificateName(val, 0)}
+                onClear={(val) => props.handleInputCertificateName(val, props.index, props.iteration)}
                 placeholder="Enter Version Number (x.xx.xxxxx)"
                 style={{ marginLeft: "10px", width: "100%" }}
             />
-            {props.certificateName[1] !== "OR" ?
-                <a style={{ marginLeft: "9px" }} className='addRule' onClick={props.addNewCertificate}>+ Add Source</a >
+            {/* {props.certificateName[1] !== "OR" ?
+                <a style={{ marginLeft: "9px" }} className='addRule' onClick={() => props.addNewCertificate("certificate", props.name, props.iteration)}>+ Add Source</a >
                 :
                 <p style={{ marginLeft: "9px", marginTop: "11px" }} className='addRule'>OR</p>
             }
             {props.certificateName[1] === "OR" &&
                 <Input
-                    value={props.certificateName[2]}
-                    onChange={(val) => props.handleInputCertificateName(val, 2)}
+                    value={props.body?.rule_value}
+                    onChange={(val) => props.handleInputCertificateName(val, 2, props.index, props.iteration)}
                     allowClear
-                    onClear={(val) => props.handleClearCertificateName(val, 2)}
+                    onClear={(val) => props.handleClearCertificateName(val, 2, props.index, props.iteration)}
                     placeholder="Enter Version Number (x.xx.xxxxx)"
                     style={{ marginLeft: "10px", width: "100%" }}
                 />
-            }
+            } */}
         </div>
     )
 }

@@ -6,9 +6,10 @@ import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { styled } from '@mui/material/styles';
 import OsProfileView from './OsProfileView';
+import _ from 'lodash';
 import './../App.css';
 
-const options = [
+const optionsToSet = [
     {
         label: "Finance Boys",
         value: "Finance Boys"
@@ -65,7 +66,41 @@ const cardStyle = {
     margin: '0 16px',
 };
 const PostureEditView = () => {
+    const [rules, setRules] = useState([])
+    const [newrule, setNewRule] = useState([""])
+    const [versionNumber, setVersionNumber] = useState('');
+    const [certificateName, setCertificateName] = useState(["", "", ""]);
+    const [processName, setProcessName] = useState(["", "", ""]);
+    const [options, setOptions] = useState([
+        { value: 'operatingSystemVersion', label: 'Operating System Version', visble: true },
+        { value: 'certificate', label: 'Certificate', visble: true },
+        { value: 'diskEncryption', label: 'Disk Encryption', visble: true },
+        { value: 'antiVirus', label: 'Anti-virus', visble: true },
+        { value: 'fileExists', label: 'File Exists', visble: true },
+        { value: 'processRunning', label: 'Process Running', visble: true },
+    ]);
 
+    const [body, setBody] = useState({
+        "uuid": "e0afd4a4-1319-4f21-a0f3-e5d81e92f65a", //unknown
+        "profile_name": "",
+        "schedule": "",
+        "assigned_teams": [],
+        "device_id": "3424324", //unknown
+        "os_rules": [
+            // {
+            //     "os": "mac",
+            //     "rule_key": "file_exists",
+            //     "rule_operator": "AND",
+            //     "rule_value": "windows/file/path/to/check"
+            // }
+        ]
+    })
+    const osRule = {
+        "os": "",
+        "rule_key": "",
+        "rule_operator": "",
+        "rule_value": ""
+    }
     const [osAdded, setOsEdit] = useState(false)
     const [osBody, setOSBody] = useState([])
     const [items, setItems] = useState([
@@ -76,7 +111,8 @@ const PostureEditView = () => {
             label: (
                 <p onClick={() => addOs("macOS")}>
                     MacOs
-                </p>)
+                </p>),
+            os_rules: []
         },
         {
             key: 2,
@@ -85,7 +121,8 @@ const PostureEditView = () => {
             label: (
                 <p onClick={() => addOs("windows")}>
                     Windows
-                </p>)
+                </p>),
+            os_rules: []
         },
         {
             key: 3,
@@ -94,7 +131,8 @@ const PostureEditView = () => {
             label: (
                 <p onClick={() => addOs("linux")}>
                     Linux
-                </p>)
+                </p>),
+            os_rules: []
         },
     ])
     const tagRender = (val) => {
@@ -106,7 +144,10 @@ const PostureEditView = () => {
         )
     }
     const handleChange = (value) => {
-        console.log(`selected ${value}`);
+        setBody(prevState => ({
+            ...prevState,
+            assigned_teams: value
+        }));
     };
     function MyFormControlLabel(props) {
         const radioGroup = useRadioGroup();
@@ -129,15 +170,27 @@ const PostureEditView = () => {
 
     const addOs = (e) => {
         // setOSBody([...osBody, osBody[osBody.length] + 1])
+        console.log("body 3: ",items);
         let abc = osBody
         let itemData = items
         abc.push(e)
+        debugger
+        console.log("body 1: ",itemData);
         items.map((option, index) => {
-            if (e === (option.value))
+            debugger
+            if (e === (option.value)){
                 itemData[index].visible = false;
+                itemData[index].os_rules = [...itemData[index].os_rules, osRule]
+                return
+            }
         });
+        console.log("body 2: ",itemData);
         setItems([...itemData])
         setOSBody([...abc])
+        // setTimeout(() => {
+            
+        //     console.log("body : ",items);
+        // }, 3000);
         // let item = items
         // item = item.filter((val, ind) => {
         //     if (val.key !== e)
@@ -165,6 +218,125 @@ const PostureEditView = () => {
         setOSBody([...body])
         setItems([...itemsData])
     }
+    const runtime = (val) => {
+        setBody(prevState => ({
+            ...prevState,
+            schedule: val
+        }));
+    }
+
+    // --------------------------------------------------------------------------
+    function createOSrule(value, index, osName, iteration) {
+        let osRuleToAdd = osRule
+        osRuleToAdd.os = osName
+        osRuleToAdd.rule_key = value
+
+        let rule = items
+        rule[iteration].os_rules = [...items[iteration].os_rules, osRuleToAdd]
+        setItems([...rule]);
+    }
+
+    const updateName = (value, index, osName, iteration) => {
+        let data = items
+        data[iteration].os_rules[index].rule_key = value
+        setItems([...data]);
+    }
+
+    const addNewRule = () => {
+        setNewRule([...newrule, ""])
+    }
+    const handleInputCertificateName = (val, ind, iteration) => {
+        // setVersionNumber(event.target.value);
+        let data = items
+        data[iteration].os_rules[ind].rule_value = val.target.value
+        data[iteration].os_rules[ind].rule_operator = val.target.value
+        setItems([...data]);
+        let certificate = certificateName
+        certificate[ind] = val.target.value
+        setCertificateName([...certificate])
+    };
+
+    const handleClearCertificateName = (val, ind) => {
+        let certificate = certificateName
+        certificate[ind] = ""
+        setCertificateName([...certificate])
+    };
+    const handleInputProcessRunning = (val, ind) => {
+        // setVersionNumber(event.target.value);
+        let process = processName
+        process[ind] = val.target.value
+        setProcessName([...process])
+    };
+
+    const handleClearProcessRunning = (val, ind) => {
+        let process = processName
+        process[ind] = ""
+        setProcessName([...process])
+    };
+
+    const handleInputVersionNumber = (event, index, iteration) => {
+        let data = items
+        data[iteration].os_rules[index].rule_value = event.target.value
+        setItems(data);
+        setVersionNumber(event.target.value);
+    };
+
+    const handleClearVersionNumber = (event, index, iteration) => {
+        let data = items
+        data[iteration].os_rules[index].rule_value = ""
+        setItems(data);
+        setVersionNumber('');
+    };
+    const addNewCertificate = (value, osName, iteration) => {
+        createOSrule(value, "", osName, iteration)
+        let certificate = certificateName
+        certificate[1] = "OR"
+        setCertificateName([...certificate])
+    }
+    const addNewProcess = (ind) => {
+        let process = processName
+        process[ind] = "AND"
+        setCertificateName([...process])
+    }
+    const handleChangeValue = (value) => {
+        console.log(`selected ${value}`);
+    };
+    // --------------------------------------------------------------------------
+
+    const profileNameSet = (val) => {
+        setBody(prevState => ({
+            ...prevState,
+            profile_name: val
+        }));
+    }
+    const onChangeOSVOperator = (val, osName, index, iteration) => {
+        let data = items
+        // let index = ""
+        // data.os_rules.map((vall, ind) => {
+        //     if (vall.os === osName && vall.rule_key === "operatingSystemVersion")
+        //         index = ind
+        //     return
+        // })
+        // if (!!!index) {
+        data[iteration].os_rules[index].rule_operator = val
+        console.log("data :", data );
+        setItems([...data]);
+        // setItems(prevItems => {
+        //     const updatedItems = [...prevItems];
+        //     if (updatedItems.length > iteration) {
+        //       updatedItems[iteration] = {
+        //         ...updatedItems[iteration],
+        //         os_rules: [
+        //           {
+        //             ...updatedItems[iteration].os_rules[index],
+        //             rule_operator: val
+        //           }
+        //         ]
+        //       };
+        //     }
+        //     return updatedItems;
+        //   });
+    }
     return (
 
         <>
@@ -178,7 +350,7 @@ const PostureEditView = () => {
                                 <div className="row">
                                     <div className="col-sm-6">
                                         <p className='header1'>Posture Check Profile Name*</p>
-                                        <Input placeholder="" />
+                                        <Input value={body.profile_name} placeholder="" onChange={profileNameSet} />
                                     </div>
                                     <div className="col-sm-6">
                                         <p className='header1'>Assign Groups*</p>
@@ -189,7 +361,8 @@ const PostureEditView = () => {
                                             style={{ width: '100%' }}
                                             placeholder="Select assigned groups"
                                             onChange={handleChange}
-                                            options={options}
+                                            value={body.assigned_teams}
+                                            options={optionsToSet}
                                         />
                                     </div>
                                 </div>
@@ -200,10 +373,10 @@ const PostureEditView = () => {
                                             <div className='d-flex'>
                                                 <MyFormControlLabel value="Prior to connection and" label="Prior to connection and" control={<Radio size="small" />} />
                                                 <Select
-                                                    defaultValue="lucy"
                                                     style={{ width: 120 }}
-                                                    disabled
+                                                    value={body.schedule}
                                                     options={[{ value: 20, label: "Every 20 minutes" }, { value: 40, label: "Every 40 minutes" }, { value: 60, label: "Every 60 minutes" }]}
+                                                    onChange={runtime}
                                                 />
                                             </div>
                                             <MyFormControlLabel value="Prior to connection only" label="Prior to connection only" control={<Radio size="small" />} />
@@ -211,11 +384,10 @@ const PostureEditView = () => {
                                     </div>
                                 </div>
                             </Card>
-                            
+
                         </div>
                         <div className='secondNode'>
-                        
-                        {items.find(item => item.visible === false) !== undefined &&
+                            {items.find(item => item.visible === false) !== undefined &&
                                 <h3 style={{ width: "80%", marginLeft: "117px", marginTop: "33px", position: "absolute" }}>Operating System for this Profile</h3>}
                             {
                                 items.map((val, ind) => {
@@ -223,7 +395,14 @@ const PostureEditView = () => {
                                         !val.visible &&
                                         <div className='list1'>
                                             <div className='mainNode childNode'>
-                                                <OsProfileView name={val.value} removeOs={removeOs} items={items} iteration={ind} osBody={osBody}/>
+                                                <OsProfileView name={val.value} removeOs={removeOs} items={val} iteration={ind} osBody={osBody} newrule={newrule}
+                                                    createOSrule={createOSrule} options={options} versionNumber={versionNumber} handleInputVersionNumber={handleInputVersionNumber}
+                                                    handleClearVersionNumber={handleClearVersionNumber} addNewCertificate={addNewCertificate} certificateName={certificateName}
+                                                    handleClearCertificateName={handleClearCertificateName} handleInputCertificateName={handleInputCertificateName}
+                                                    handleChangeValue={handleChangeValue} processName={processName} handleClearProcessRunning={handleClearProcessRunning}
+                                                    handleInputProcessRunning={handleInputProcessRunning} addNewProcess={addNewProcess} addNewRule={addNewRule}
+                                                    onChangeOSVOperator={onChangeOSVOperator} body={body} updateName={updateName}
+                                                />
                                             </div>
                                         </div>
 
@@ -234,6 +413,21 @@ const PostureEditView = () => {
                     </div>
 
                 </div >
+                {/* {
+    "uuid": "e0afd4a4-1319-4f21-a0f3-e5d81e92f65a",
+    "profile_name": "Usman",
+    "schedule": 20,
+    "assigned_teams": ['abc'],
+    "device_id": "3424324",
+    "os_rules": [
+        {
+            "os": "mac",
+            "rule_key": "file_exists",
+            "rule_operator": "AND",
+            "rule_value": "windows/file/path/to/check"
+        }
+    ]
+} */}
                 {/* <ul>
                     <li class="container"><p>Testing </p>
                         <ul>
@@ -243,7 +437,7 @@ const PostureEditView = () => {
                     </li>
                 </ul> */}
 
-                <div className="row" style={{marginTop: "150px"}}>
+                <div className="row" style={{ marginTop: "150px" }}>
                     <div className="col-sm-8">
                         {items.find(item => item.visible === false) === undefined &&
                             <div className='noOpSelected'>
@@ -256,7 +450,7 @@ const PostureEditView = () => {
                         {items.length > 0 &&
                             <div className="d-flex justify-content-end " style={{ marginTop: "35px", marginRight: "120px" }}>
                                 {/* <Button type="primary" ghost onChange={addOs}>Add OS to Profile</Button> */}
-                                <Dropdown onChange={(val) => addOs(val)}
+                                <Dropdown onChange={addOs}
                                     overlay={MenuComponent}
                                     trigger={["hover"]}
                                     placement="bottom"

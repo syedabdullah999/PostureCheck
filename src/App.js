@@ -171,7 +171,6 @@ function App() {
   };
 
   const tagRender = (val) => {
-    debugger
     return (
       <>
         <PlusCircleOutlined style={{ display: "inline-grid" }} />
