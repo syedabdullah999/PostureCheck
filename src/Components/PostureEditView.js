@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button, Space, Divider, Input, UserOutlined, Card, Select, Dropdown, Tree, Menu } from 'antd';
+import { Button, Space, Divider, Input, UserOutlined, Card, Select, Dropdown, Tree, Menu, Row, Col } from 'antd';
 import { DownloadOutlined, PlusCircleOutlined, DeleteOutlined, FileAddOutlined } from '@ant-design/icons';
 import RadioGroup, { useRadioGroup } from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
@@ -168,19 +168,20 @@ const PostureEditView = () => {
     return (
 
         <>
-            <div className="col-sm-12">
+            <Col span={24}>
                 <h1 className=''>Edit Device Posture Check Profile</h1>
                 <p>Creae and manage Device Posture Check profiles to enforce security befor endpoints gain network access.</p>
                 <div className='mainUL'>
                     <div class="list1 container">
                         <div className='mainNode'>
                             <Card style={{ width: "100%", borderLeftColor: "#227ef5", borderLeftWidth: "4px", marginTop: "33px" }}>
-                                <div className="row">
-                                    <div className="col-sm-6">
+                                <Row>
+                                    <Col span={10}>
                                         <p className='header1'>Posture Check Profile Name*</p>
                                         <Input placeholder="" />
-                                    </div>
-                                    <div className="col-sm-6">
+                                    </Col>
+                                    <Col span={2}></Col>
+                                    <Col span={10}>
                                         <p className='header1'>Assign Groups*</p>
                                         <Select
                                             mode="multiple"
@@ -191,13 +192,13 @@ const PostureEditView = () => {
                                             onChange={handleChange}
                                             options={options}
                                         />
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-sm-6">
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col span={12}>
                                         <p className='header1 runtimeSchedule'>Runtime Schedule</p>
                                         <RadioGroup name="use-radio-group" defaultValue="first">
-                                            <div className='d-flex'>
+                                            <div className='' style={{display: "flex" }}>
                                                 <MyFormControlLabel value="Prior to connection and" label="Prior to connection and" control={<Radio size="small" />} />
                                                 <Select
                                                     defaultValue="lucy"
@@ -208,14 +209,14 @@ const PostureEditView = () => {
                                             </div>
                                             <MyFormControlLabel value="Prior to connection only" label="Prior to connection only" control={<Radio size="small" />} />
                                         </RadioGroup>
-                                    </div>
-                                </div>
+                                    </Col>
+                                </Row>
                             </Card>
-                            
+
                         </div>
                         <div className='secondNode'>
-                        
-                        {items.find(item => item.visible === false) !== undefined &&
+
+                            {items.find(item => item.visible === false) !== undefined &&
                                 <h3 style={{ width: "80%", marginLeft: "117px", marginTop: "33px", position: "absolute" }}>Operating System for this Profile</h3>}
                             {
                                 items.map((val, ind) => {
@@ -223,7 +224,7 @@ const PostureEditView = () => {
                                         !val.visible &&
                                         <div className='list1'>
                                             <div className='mainNode childNode'>
-                                                <OsProfileView name={val.value} removeOs={removeOs} items={items} iteration={ind} osBody={osBody}/>
+                                                <OsProfileView name={val.value} removeOs={removeOs} items={items} iteration={ind} osBody={osBody} />
                                             </div>
                                         </div>
 
@@ -243,18 +244,19 @@ const PostureEditView = () => {
                     </li>
                 </ul> */}
 
-                <div className="row" style={{marginTop: "150px"}}>
-                    <div className="col-sm-8">
+                <Row style={{ marginTop: "150px" }}>
+                    <Col span={16}>
                         {items.find(item => item.visible === false) === undefined &&
                             <div className='noOpSelected'>
                                 <h2>No Operating System Selected Yet</h2>
                                 <p>Click on add OS</p>
                             </div>
                         }
-                    </div>
-                    <div className="col-sm-4">
+                    </Col>
+                    <Col span={2}></Col>
+                    <Col span={6}>
                         {items.length > 0 &&
-                            <div className="d-flex justify-content-end " style={{ marginTop: "35px", marginRight: "120px" }}>
+                            <div className="justify-content-class" style={{ marginTop: "35px", marginRight: "120px" }}>
                                 {/* <Button type="primary" ghost onChange={addOs}>Add OS to Profile</Button> */}
                                 <Dropdown onChange={(val) => addOs(val)}
                                     overlay={MenuComponent}
@@ -267,26 +269,24 @@ const PostureEditView = () => {
                             </div>
                         }
 
-                    </div>
+                    </Col>
 
-                </div>
+                </Row>
                 <hr style={{ width: "84%", marginLeft: "100px" }} />
-                <div className="row">
-                    <div className="col-sm-10">
-
-                    </div>
-                    <div className="col-sm-2">
-                        <div className="d-flex justify-content-end " style={{ marginTop: "35px" }}>
+                <Row>
+                    <Col span={20}></Col>
+                    <Col span={4}>
+                        <div className="justify-content-class" style={{ marginTop: "35px",display: "flex" }}>
                             {/* <Button type="primary" ghost onChange={addOs}>Add OS to Profile</Button> */}
                             <Button type="text">Cancel</Button>
                             <div style={{ marginLeft: "10px" }}></div>
                             <Button type="primary" >Apply</Button>
                         </div>
 
-                    </div>
+                    </Col>
 
-                </div>
-            </div >
+                </Row>
+            </Col>
         </>
 
     )

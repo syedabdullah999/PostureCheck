@@ -134,3 +134,7 @@ div.mainNode {
   margin-left: -130px;
   margin-top: -52px;
 }
+
+.justify-content-class {
+  justify-content: flex-end;
+}
