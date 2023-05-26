@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { DownloadOutlined, PlusCircleOutlined, DeleteOutlined, QuestionCircleFilled } from '@ant-design/icons';
 import './../App.css';
 
-import { Button, Space, Divider, Input, UserOutlined, Card, Select, Dropdown } from 'antd';
+import { Button, Space, Divider, Input, UserOutlined, Card, Select, Dropdown, Row, Col  } from 'antd';
 import OSVRule from './SubComponents/OSVRule';
 import CertificateRule from './SubComponents/CertificateRule';
 import AntiVirusRule from './SubComponents/AntiVirusRule';
@@ -91,25 +91,25 @@ const OsProfileView = (props) => {
     };
     return (
         <Card style={{ width: "94%", borderLeftColor: "rgb(146 194 255)", borderLeftWidth: "4px", marginBottom: "-81px", marginLeft: "-52px", marginTop: `${props.iteration !== 0 ? "104px" : "78px"}` }}>
-            <div className="row">
-                <div className="col-sm-6">
+            <Row>
+                <Col span={12}>
                     <p>{props.name}</p>
-                </div>
-                <div className="col-sm-6 d-flex justify-content-end">
+                </Col>
+                <Col span={12} className='justify-content-class' style={{ display: "flex" }}>
                     <DeleteOutlined onClick={() => props.removeOs(props.name)} />
-                </div>
-                <hr />
-            </div>
+                </Col>
+                <Divider />
+            </Row>
 
             <p className='header1'>Select and Define Rules*</p>
 
             {newrule.map((val, index) => {
                 return (
-                    <div className="row">
-                        <div className="col-sm-4 d-flex">
+                    <Row>
+                        <Col span={8} style={{ display: "flex" }}>
                             <Select
                                 onChange={(event) => handleSelect(event, index)}
-                                style={{ width: "100%", height: "33px"}}
+                                style={{ width: "100%", height: "33px" }}
                                 placeholder="Select rule type"
                             // options={[{ value: "OperatingSystemVersion", label: "Operating System Version" }, { value: "AntiVirus", label: "Anti Virus" }]}
                             >
@@ -121,12 +121,13 @@ const OsProfileView = (props) => {
                                     </Option>
                                 ))}
                             </Select>
-                            <div style={{ marginLeft: "8px" }}>
+                            <div style={{ marginLeft: "4px" }}>
                                 <QuestionCircleFilled />
                             </div>
-                        </div>
-                        <div className="col-sm-8 d-flex">
-                            <div className={(val === "" || val === "diskEncryption") ? "" : 'col-sm-10 d-flex'}>
+                        </Col>
+                        <Col span={16} style={{ display: "flex" }}>
+                            {/* <div className={(val === "" || val === "diskEncryption") ? "" : 'col-sm-10 d-flex'}> */}
+                            <Col span={20} className='' style={{ display: "flex" }}>
                                 {val === "operatingSystemVersion" &&
                                     <OSVRule versionNumber={versionNumber} handleInputVersionNumber={handleInputVersionNumber} handleClearVersionNumber={handleClearVersionNumber} />
                                 }
@@ -152,17 +153,19 @@ const OsProfileView = (props) => {
                                         <ProcessRunningRule processName={processName} handleClearProcessRunning={handleClearProcessRunning} handleInputProcessRunning={handleInputProcessRunning} addNewProcess={addNewProcess} />
                                     </div>
                                 }
-                            </div>
-                            <div className={(val === "" || val === "diskEncryption") ? "" : 'col-sm-2 d-flex justify-content-end'}>
+                            </Col>
+                            {/* <div className={(val === "" || val === "diskEncryption") ? "" : 'col-sm-2 d-flex justify-content-end'}> */}
+                            <Col span={4} className='justify-content-class' style={{ display: "flex" }}>
                                 <DeleteOutlined />
-                            </div>
-                        </div>
+                            </Col>
+                            {/* </div> */}
+                        </Col>
                         <div style={{ marginTop: "20px" }}></div>
-                        <hr />
-                    </div>
+                        <Divider />
+                    </Row>
                 )
             })}
-            
+
             {<p class="vertical OrTag">OR</p>}
             <div style={{ marginTop: "20px" }}></div>
             <a className='addRule' onClick={addNewRule}>+ Add Rule to OS</a>

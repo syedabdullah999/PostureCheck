@@ -4,7 +4,7 @@ import { Button, Space, Divider, Input, UserOutlined, Card, Select, Dropdown } f
 const CertificateRule = (props) => {
     return (
         <>
-            <div className='d-flex' style={{ width: "100%" }}>
+            <div className='' style={{ width: "100%", display: "flex" }}>
                 <Select
                     style={{ width: 150 }}
                     options={[{ value: ">=", label: ">=" }, { value: ">", label: ">" }, { value: "=", label: "=" }]}

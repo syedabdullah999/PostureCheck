@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { DownloadOutlined, PlusCircleOutlined, PlusSquareOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Button, Space, Divider, Input, UserOutlined, Card, Select, Icon } from 'antd';
+import { Button, Space, Divider, Input, UserOutlined, Card, Select, Icon, Row, Col } from 'antd';
 import RadioGroup, { useRadioGroup } from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { styled } from '@mui/material/styles';
@@ -120,7 +119,7 @@ function App() {
       });
     }
   };
-  const Row = ({ children, ...props }) => {
+  const Rows = ({ children, ...props }) => {
     const {
       attributes,
       listeners,
@@ -202,27 +201,28 @@ function App() {
       <div className="container">
         {!editOpen ?
           <>
-            <div className="row">
-              <div className="col-sm-8">
+            <Row>
+            <Col span={16}>
                 <h1 className=''>Device Posture Check</h1>
                 <p>Creae and manage Device Posture Check profiles to enforce security befor endpoints gain network access.</p>
 
-              </div>
-              <div className="col-sm-4 d-flex justify-content-end ">
+              </Col>
+              {/* <div className="col-sm-4 d-flex justify-content-end "> */}
+              <Col span={8} className='justify-content-class' style={{display: "flex"}}>
                 <Button type="primary" icon={<PlusCircleOutlined />} className="addprofileButton" onClick={onOpen}>
                   Add Profile
                 </Button>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-sm-8 ">
+                </Col>
+            </Row>
+            <Row>
+              <Col span={16}>
 
                 <Search placeholder="input search text" onSearch={onSearch} style={{ width: 350 }} />
-              </div>
-              <div className="col-sm-4 d-flex justify-content-end">
+              </Col>
+              <Col span={16} className='justify-content-class' style={{display: "flex"}}>
                 <p>Device Posture Check Profiles</p>
-              </div>
-            </div>
+              </Col>
+            </Row>
 
 
 
@@ -242,7 +242,7 @@ function App() {
                   }}
                   components={{
                     body: {
-                      row: Row,
+                      row: Rows,
                     },
                   }}
                   rowKey="key"

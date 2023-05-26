@@ -169,8 +169,8 @@ const PostureEditView = () => {
 
         <>
             <Col span={24}>
-                <h1 className=''>Edit Device Posture Check Profile</h1>
-                <p>Creae and manage Device Posture Check profiles to enforce security befor endpoints gain network access.</p>
+                <h1 style={{marginLeft: "150px"}}>Edit Device Posture Check Profile</h1>
+                <p style={{marginLeft: "150px"}}>Creae and manage Device Posture Check profiles to enforce security befor endpoints gain network access.</p>
                 <div className='mainUL'>
                     <div class="list1 container">
                         <div className='mainNode'>
